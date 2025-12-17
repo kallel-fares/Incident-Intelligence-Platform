@@ -1,0 +1,250 @@
+[
+  {
+    "doc_id": "SOP-COOL-012",
+    "title": "Cooling System Failure Response Protocol",
+    "type": "SOP",
+    "source": "SharePoint/Operations/SOPs/Cooling",
+    "equipment_tags": ["CRAC", "chiller", "cooling"],
+    "alarm_type_tags": ["high_temperature", "compressor_fault"],
+    "last_updated": "2025-06-01",
+    "version": "3.2",
+    "sections": [
+      {
+        "heading": "1. Initial Assessment",
+        "content": "Upon receiving a cooling alarm, immediately determine: (a) which zone is affected, (b) current rack inlet temperatures in that zone, (c) whether the alarm is isolated to one unit or multiple units. If multiple CRAC units in the same zone are alarming simultaneously, proceed directly to Section 5 (Multi-unit Correlation). Do not restart individual units before identifying root cause."
+      },
+      {
+        "heading": "4.3 Filter Replacement Procedure",
+        "content": "1. Shut down CRAC unit via local control panel (hold STOP button 3 seconds until LED turns amber). 2. Open front access panel using T-25 torx — two screws at top, two at bottom. 3. Remove filter frame by releasing two spring clips on left side. 4. Inspect evaporator coil for debris accumulation — use torch. 5. If coil surface is fouled, clean with compressed air before installing new filter. 6. Insert new filter (model FLT-2248) — confirm airflow direction arrow points toward unit interior. 7. Reattach spring clips. 8. Close access panel. 9. Restart unit — monitor discharge temp for 10 min to confirm improvement."
+      },
+      {
+        "heading": "4.5 Refrigerant Pressure Check",
+        "content": "Required tools: Refrigerant pressure gauge set (R410A compatible), safety glasses, nitrile gloves. 1. Locate service port on unit rear panel (label: SP-[unit-id]-R). 2. Attach gauge to low-side (blue) and high-side (red) ports. 3. Nominal low-side pressure at 20°C ambient: 118-125 PSI. Nominal high-side: 380-410 PSI. 4. If low-side below 100 PSI, refrigerant charge is insufficient — proceed to recharge procedure (SOP-REFRIG-001). 5. If pressures nominal but temp still elevated, suspect compressor or TXV fault — escalate to mechanical lead."
+      },
+      {
+        "heading": "5. Multi-Unit Correlation",
+        "content": "If two or more CRAC units in the same zone alarm within 15 minutes and all units are on the same chiller loop: STOP. Do not dispatch to individual CRAC units. The probable cause is upstream (chiller plant or chilled water loop). Proceed to chiller plant check (Section 6). Dispatching teams to individual CRAC units when the upstream chiller is the root cause wastes time and delays resolution."
+      },
+      {
+        "heading": "6. Chiller Plant Check",
+        "content": "1. Check BMS dashboard for chiller plant status — confirm both primary and standby pumps. 2. Verify chilled water supply temperature at plant outlet (nominal: 7°C ± 1°C). 3. Check chilled water flow rate (nominal: 850 LPM for CHILLER-01). 4. If supply temp > 10°C or flow rate < 600 LPM, activate standby pump immediately. 5. Contact on-call mechanical lead if standby pump activation does not restore supply temp within 10 minutes."
+      }
+    ]
+  },
+  {
+    "doc_id": "SOP-PWR-008",
+    "title": "Power Anomaly Escalation Matrix",
+    "type": "SOP",
+    "source": "SharePoint/Operations/SOPs/Power",
+    "equipment_tags": ["PDU", "UPS", "power"],
+    "alarm_type_tags": ["voltage_fluctuation", "high_battery_temperature"],
+    "last_updated": "2025-03-15",
+    "version": "2.1",
+    "sections": [
+      {
+        "heading": "2. Voltage Anomaly Classification",
+        "content": "Voltage sag (228V → 215–224V): Warning level. Cross-check with handheld multimeter before dispatching. If multimeter confirms sag, treat as hardware fault. If multimeter reads nominal, treat as sensor drift (recalibrate). Voltage sag (< 215V): Critical. Notify facility manager immediately. Activate UPS bypass if available. Prepare for load shedding per PROC-LOADSHED if not restored within 10 minutes."
+      },
+      {
+        "heading": "3. PDU Hardware Fault Procedure",
+        "content": "1. Confirm voltage sag with handheld multimeter at PDU bus bar. 2. Check load percentage — if > 90%, suspect overload. If < 80%, suspect hardware fault. 3. Visual inspection of capacitor bank (rear panel bay C) — look for bulging, discolouration, or electrolyte residue. 4. If capacitor module (CAP-M12) shows signs of failure, replace per MANUAL-PDU-A03 Section 5.2. 5. If redundant PDU available (PDU-A-04), confirm it can accept full load before transferring. 6. Always wear insulated gloves (Class 1 minimum) when working on PDU internals."
+      },
+      {
+        "heading": "4. UPS Battery Temperature",
+        "content": "UPS battery temp alert (> 30°C): Check ambient temperature in zone. If ambient > 26°C, likely environmental cause — address cooling before treating as UPS fault. If ambient is nominal (22–25°C) and battery temp is elevated, suspect battery cell degradation. Contact UPS vendor for battery health check if temp persists above 30°C for more than 2 hours."
+      }
+    ]
+  },
+  {
+    "doc_id": "SOP-CRIT-001",
+    "title": "Cascading Failure Response — P1 Protocol",
+    "type": "SOP",
+    "source": "SharePoint/Operations/SOPs/Critical",
+    "equipment_tags": ["CRAC", "chiller", "PDU", "UPS"],
+    "alarm_type_tags": ["high_temperature", "compressor_fault", "high_humidity", "voltage_fluctuation"],
+    "last_updated": "2025-09-20",
+    "version": "4.0",
+    "sections": [
+      {
+        "heading": "1. Cascading Failure Indicators",
+        "content": "Declare P1 Cascading Failure if ANY of these patterns are observed: (a) 3+ alarms across multiple zones within 10 minutes with no corresponding load change, (b) CRAC discharge temps rising simultaneously across an entire zone, (c) Chilled water supply temperature rising while pump is running. Do not attempt to resolve individual equipment alarms until the upstream root cause is identified."
+      },
+      {
+        "heading": "2. Immediate Actions (first 5 minutes)",
+        "content": "1. Notify facility manager and on-call mechanical lead immediately — do not wait for root cause identification. 2. Do NOT restart individual CRAC units that have faulted — they will fault again if chilled water supply is degraded. 3. Check chiller plant supply temperature via BMS. 4. Identify which chiller loop serves the affected zones (see SCHEMATIC-CHILLER). 5. Activate standby pump if primary pump shows fault or low flow."
+      },
+      {
+        "heading": "3. Team Deployment",
+        "content": "Primary team: Deploy to chiller plant, not to individual zones. Secondary team: Stage at Zone C/D entrance, ready for emergency load shedding if chiller not restored within 30 minutes. Do not send both teams to individual equipment — this is the most common mistake in cascading failures and delays resolution by 60+ minutes."
+      },
+      {
+        "heading": "4. 30-Minute Decision Point",
+        "content": "If chilled water supply temperature is not restored to below 10°C within 30 minutes of first alarm: Execute emergency load shedding per PROC-LOADSHED-CD. Coordinate with IT operations before any load shedding. Document all actions taken with timestamps for post-incident review."
+      }
+    ]
+  },
+  {
+    "doc_id": "MANUAL-CRAC-B07",
+    "title": "Liebert CW102 Maintenance Manual — CRAC-B-07",
+    "type": "Manual",
+    "source": "SharePoint/Equipment/Manuals/Cooling/Liebert",
+    "equipment_tags": ["CRAC-B-07", "CRAC"],
+    "alarm_type_tags": ["high_temperature", "compressor_fault"],
+    "last_updated": "2024-01-10",
+    "version": "CW102-MNT-2.4",
+    "sections": [
+      {
+        "heading": "3. Scheduled Maintenance",
+        "content": "Monthly: Inspect and replace air filter (model FLT-2248). Check condenser coil cleanliness. Quarterly: Refrigerant pressure check. Inspect electrical connections. Clean evaporator coil with approved cleaner. Annually: Full refrigerant charge verification, compressor health check, TXV calibration."
+      },
+      {
+        "heading": "4.1 Air Filter Location and Access",
+        "content": "The air filter is located behind the front access panel. Panel is secured with four T-25 torx screws (top x2, bottom x2). Filter frame is retained by two spring clips on the left side. Filter dimensions: 610mm × 610mm × 50mm. Correct orientation: airflow direction arrow must face unit interior (toward evaporator coil). Filter model: FLT-2248 (OEM equivalent: Camfil 30/30 MERV-8)."
+      },
+      {
+        "heading": "5.2 Compressor Fault Codes",
+        "content": "E01: High pressure cutout — check condenser fan operation, check for refrigerant overcharge. E02: Low suction temp — possible TXV fault or refrigerant overcharge. E03: High discharge temp — check filter, check refrigerant charge, check condenser coil. E04: Low pressure cutout — insufficient refrigerant charge, check for leaks at all service connections."
+      }
+    ]
+  },
+  {
+    "doc_id": "MANUAL-PDU-A03",
+    "title": "APC AP8853 Technical Specification — PDU-A-03",
+    "type": "Manual",
+    "source": "SharePoint/Equipment/Manuals/Power/APC",
+    "equipment_tags": ["PDU-A-03", "PDU"],
+    "alarm_type_tags": ["voltage_fluctuation"],
+    "last_updated": "2023-11-01",
+    "version": "AP8853-SPEC-1.8",
+    "sections": [
+      {
+        "heading": "3.4 Power Conditioning Stage — Capacitor Bank",
+        "content": "Location: Rear panel, bay C (third bay from left). The capacitor bank consists of 6 electrolytic capacitors in parallel configuration. Module designation: CAP-M12. Access: Remove two M4 screws securing bay C cover. Capacitors are visible without further disassembly. Visual inspection indicators of failure: bulging top vent, discolouration (brown or white residue), electrolyte leakage on PCB surface."
+      },
+      {
+        "heading": "5.2 Capacitor Module Replacement",
+        "content": "WARNING: Discharge capacitors before handling. Use discharge resistor (1kΩ, 10W) across each capacitor terminal for minimum 30 seconds. Required tools: Phillips PH2, insulated gloves (Class 1 minimum), discharge resistor. 1. Isolate PDU input breaker. 2. Confirm zero voltage on input bus using multimeter. 3. Remove bay C cover. 4. Discharge capacitors. 5. Disconnect two spade connectors from CAP-M12 module. 6. Remove 4 mounting screws. 7. Install new CAP-M12. 8. Reconnect spade connectors (observe polarity markings). 9. Replace bay C cover. 10. Restore input breaker. 11. Monitor output voltage for 5 minutes."
+      }
+    ]
+  },
+  {
+    "doc_id": "VB-2024-03",
+    "title": "Vendor Bulletin VB-2024-03 — APC AP8853 Capacitor Batch Advisory",
+    "type": "Bulletin",
+    "source": "SharePoint/Equipment/VendorBulletins",
+    "equipment_tags": ["PDU"],
+    "alarm_type_tags": ["voltage_fluctuation"],
+    "last_updated": "2024-03-01",
+    "version": "1.0",
+    "sections": [
+      {
+        "heading": "Advisory Summary",
+        "content": "APC has identified a quality issue affecting the CAP-M12 capacitor module installed in AP8853 units manufactured between January 2019 and June 2020. Affected units may exhibit premature electrolytic capacitor degradation, manifesting as intermittent voltage sag on the output bus. The degradation rate is accelerated in environments with ambient temperatures above 24°C or high load factors (> 70% sustained)."
+      },
+      {
+        "heading": "Affected Units",
+        "content": "Units affected: AP8853 with serial numbers in range AP8853-2019-XXXX through AP8853-2020-0699. Check serial number label on rear panel. Meridian units confirmed affected: PDU-A-01 (serial AP8853-2019-0441), PDU-A-03 (serial AP8853-2019-0447), PDU-A-04 (serial AP8853-2019-0448). PDU-A-02 is outside affected range (AP8853-2020-0712)."
+      },
+      {
+        "heading": "Recommended Action",
+        "content": "Replace CAP-M12 capacitor module during next scheduled maintenance window if no symptoms present. If voltage anomalies are observed (sag, ripple, intermittent fluctuation), treat as urgent and replace within 72 hours. APC will supply replacement CAP-M12 modules at no charge for affected units — contact APC support with serial number. Reference case: VB-2024-03."
+      }
+    ]
+  },
+  {
+    "doc_id": "SCHEMATIC-CHILLER",
+    "title": "Chiller Plant Loop Assignment Schematic",
+    "type": "Schematic",
+    "source": "SharePoint/Facilities/Schematics",
+    "equipment_tags": ["chiller", "CRAC", "cooling"],
+    "alarm_type_tags": ["high_temperature", "compressor_fault"],
+    "last_updated": "2024-08-15",
+    "version": "2.1",
+    "sections": [
+      {
+        "heading": "Loop Assignments",
+        "content": "CHILLER-01 (Carrier 30XA, Loop 2): Serves Zone C (CRAC-C-02, CRAC-C-05) and Zone D (CRAC-D-01). Primary pump: Grundfos CM25-3 (serial GF-2018-C01-P). Standby pump: Grundfos CM25-3 (serial GF-2018-C01-PS). Standby pump switchover: automatic on primary pump fault, or manual via chiller plant control panel (green STANDBY button). CHILLER-02 (Carrier 30XA, Loop 1): Serves Zone A and Zone B (CRAC-B-07). Primary pump: Grundfos CM25-3 (serial GF-2018-C02-P). Standby pump: Grundfos CM25-3 (serial GF-2018-C02-PS)."
+      },
+      {
+        "heading": "Key Observation",
+        "content": "Zones C and D share the same chilled water loop (Loop 2 / CHILLER-01). A failure anywhere on Loop 2 — including pump failure, chiller compressor fault, or chilled water leak — will affect ALL CRAC units in both zones simultaneously. Zones A and B (Loop 1 / CHILLER-02) are fully independent and will not be affected by Loop 2 failures. This architectural detail is critical for diagnosing cascading alarms across Zone C and/or Zone D."
+      }
+    ]
+  },
+  {
+    "doc_id": "PROC-LOADSHED-CD",
+    "title": "Emergency Load Shedding Procedure — Zones C and D",
+    "type": "Procedure",
+    "source": "SharePoint/Operations/Emergency",
+    "equipment_tags": ["RACK-C-12", "RACK-C-15", "RACK-D-03"],
+    "alarm_type_tags": ["high_temperature", "compressor_fault"],
+    "last_updated": "2025-01-10",
+    "version": "1.3",
+    "sections": [
+      {
+        "heading": "Trigger Criteria",
+        "content": "Execute this procedure ONLY when: (a) Rack inlet temperatures in Zone C or D exceed 38°C AND cooling is not being restored, OR (b) Facility manager authorises load shedding due to extended cooling outage. Do not execute without IT operations coordinator approval unless rack temps exceed 40°C (imminent hardware shutdown threshold)."
+      },
+      {
+        "heading": "Shedding Sequence",
+        "content": "Shed in this order to minimise business impact: 1. Development and test servers (racks C-14, C-16, D-04, D-05) — coordinate with IT ops. 2. Non-critical production services identified by IT ops. 3. If temps still rising after step 2, escalate to emergency shutdown sequence (contact CTO on-call). Do not shed production database or authentication servers without CTO approval. Primary production racks: C-12, C-15, D-03 — these are last resort only."
+      }
+    ]
+  },
+  {
+    "doc_id": "SOP-MAINT-FILTER",
+    "title": "Air Filter Replacement Schedule — All CRAC Units",
+    "type": "SOP",
+    "source": "SharePoint/Operations/SOPs/Maintenance",
+    "equipment_tags": ["CRAC"],
+    "alarm_type_tags": ["high_temperature"],
+    "last_updated": "2025-04-01",
+    "version": "1.1",
+    "sections": [
+      {
+        "heading": "Replacement Intervals by Zone",
+        "content": "Zone A (lower dust, controlled access): Quarterly filter replacement. Zone B (moderate dust): Monthly filter replacement. CRAC-B-07 was upgraded to monthly schedule after INC-2024-0142. Zone C (moderate dust, higher rack density): Monthly filter replacement. Zone D (lower traffic): Quarterly filter replacement. All replacements use FLT-2248 (stock location: Maintenance Room B, shelf 3, bin labelled FLT-2248)."
+      }
+    ]
+  },
+  {
+    "doc_id": "SOP-REFRIG-001",
+    "title": "Refrigerant Pressure Check and Recharge — R410A",
+    "type": "SOP",
+    "source": "SharePoint/Operations/SOPs/Cooling",
+    "equipment_tags": ["CRAC"],
+    "alarm_type_tags": ["high_temperature", "compressor_fault"],
+    "last_updated": "2024-11-20",
+    "version": "2.0",
+    "sections": [
+      {
+        "heading": "1. Safety Requirements",
+        "content": "R410A is non-toxic but an asphyxiation hazard in enclosed spaces. Ensure adequate ventilation before working on refrigerant systems. Required PPE: safety glasses, nitrile gloves. R410A is an HFC refrigerant — recovery required before any system opening per applicable environmental regulations. Do not vent to atmosphere."
+      },
+      {
+        "heading": "2. Pressure Check Procedure",
+        "content": "Required: R410A manifold gauge set, calibrated. 1. Attach low-side (blue) gauge to low-side service port. Attach high-side (red) gauge to high-side service port. 2. At 20°C ambient: nominal low-side 118–125 PSI; nominal high-side 380–410 PSI. 3. Low-side below 100 PSI: refrigerant deficiency confirmed. Inspect all service connections and flare fittings for leaks before recharging. 4. Recharge only with certified technician present — do not recharge without identifying and repairing leak source."
+      }
+    ]
+  },
+  {
+    "doc_id": "SOP-PWR-MULTIMETER",
+    "title": "Voltage Verification — Handheld Multimeter Cross-Check",
+    "type": "SOP",
+    "source": "SharePoint/Operations/SOPs/Power",
+    "equipment_tags": ["PDU"],
+    "alarm_type_tags": ["voltage_fluctuation"],
+    "last_updated": "2024-06-05",
+    "version": "1.0",
+    "sections": [
+      {
+        "heading": "When to Use",
+        "content": "Always perform a handheld multimeter cross-check before treating a PDU voltage alarm as a hardware fault. Previous incident (INC-2024-0201) showed a 9V discrepancy between sensor reading and actual voltage, caused by sensor calibration drift after firmware update. Cross-check takes 2 minutes and can prevent unnecessary callouts."
+      },
+      {
+        "heading": "Procedure",
+        "content": "Required: Calibrated handheld multimeter (Fluke 117 or equivalent), insulated probe leads, insulated gloves. 1. Set multimeter to AC voltage, 300V range. 2. Access PDU output bus bar via front panel (no need to open rear panel). 3. Measure L-N voltage at output bus. Compare to PDU monitoring system reading. 4. If discrepancy > 3V: sensor drift — recalibrate via PDU management interface. 5. If readings agree: hardware fault confirmed — proceed per SOP-PWR-008 Section 3."
+      }
+    ]
+  }
+]

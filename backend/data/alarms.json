@@ -1,0 +1,93 @@
+[
+  {
+    "alarm_id": "ALM-2025-0847",
+    "timestamp": "2025-12-15T14:20:00Z",
+    "equipment_id": "CRAC-B-07",
+    "zone": "Zone B",
+    "type": "high_temperature",
+    "severity": "warning",
+    "value": 38.1,
+    "threshold": 32.0,
+    "unit": "°C",
+    "message": "Discharge air temperature exceeds threshold",
+    "scenario": "A"
+  },
+  {
+    "alarm_id": "ALM-2025-0851",
+    "timestamp": "2025-12-16T10:30:00Z",
+    "equipment_id": "PDU-A-03",
+    "zone": "Zone A",
+    "type": "voltage_fluctuation",
+    "severity": "warning",
+    "value": 219.2,
+    "threshold": 215.0,
+    "unit": "V",
+    "message": "Supply voltage below nominal range — intermittent sag detected",
+    "scenario": "B"
+  },
+  {
+    "alarm_id": "ALM-2025-0852",
+    "timestamp": "2025-12-16T10:31:00Z",
+    "equipment_id": "UPS-A-01",
+    "zone": "Zone A",
+    "type": "high_battery_temperature",
+    "severity": "info",
+    "value": 24.1,
+    "threshold": 35.0,
+    "unit": "°C",
+    "message": "UPS battery temperature elevated — within range but trending up",
+    "scenario": "B"
+  },
+  {
+    "alarm_id": "ALM-2025-0860",
+    "timestamp": "2025-12-17T09:00:00Z",
+    "equipment_id": "RACK-C-12",
+    "zone": "Zone C",
+    "type": "high_temperature",
+    "severity": "warning",
+    "value": 35.5,
+    "threshold": 35.0,
+    "unit": "°C",
+    "message": "Rack C-12 inlet temperature exceeds threshold",
+    "scenario": "C"
+  },
+  {
+    "alarm_id": "ALM-2025-0861",
+    "timestamp": "2025-12-17T09:02:00Z",
+    "equipment_id": "RACK-C-15",
+    "zone": "Zone C",
+    "type": "high_temperature",
+    "severity": "warning",
+    "value": 36.2,
+    "threshold": 35.0,
+    "unit": "°C",
+    "message": "Rack C-15 inlet temperature exceeds threshold",
+    "scenario": "C"
+  },
+  {
+    "alarm_id": "ALM-2025-0862",
+    "timestamp": "2025-12-17T09:04:00Z",
+    "equipment_id": "RACK-D-03",
+    "zone": "Zone D",
+    "type": "high_humidity",
+    "severity": "warning",
+    "value": 72.1,
+    "threshold": 65.0,
+    "unit": "%RH",
+    "message": "Zone D humidity spike — condensation risk",
+    "scenario": "C"
+  },
+  {
+    "alarm_id": "ALM-2025-0863",
+    "timestamp": "2025-12-17T09:06:00Z",
+    "equipment_id": "CRAC-C-02",
+    "zone": "Zone C",
+    "type": "compressor_fault",
+    "severity": "critical",
+    "value": null,
+    "threshold": null,
+    "unit": null,
+    "message": "CRAC-C-02 compressor fault — unit unable to maintain discharge temperature",
+    "scenario": "C"
+  }
+]

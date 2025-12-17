@@ -1,0 +1,211 @@
+[
+  {
+    "equipment_id": "CRAC-B-07",
+    "name": "CRAC Unit B-07",
+    "type": "CRAC",
+    "zone": "Zone B",
+    "model": "Liebert CW102",
+    "install_date": "2021-03-15",
+    "last_maintenance": "2025-11-20",
+    "chiller_loop": 1,
+    "specs": {
+      "cooling_capacity_kw": 100,
+      "max_discharge_temp_c": 32,
+      "refrigerant": "R410A",
+      "filter_model": "FLT-2248",
+      "service_port": "SP-B07-R",
+      "access_panel_fastener": "T-25 torx"
+    }
+  },
+  {
+    "equipment_id": "CRAC-C-02",
+    "name": "CRAC Unit C-02",
+    "type": "CRAC",
+    "zone": "Zone C",
+    "model": "Liebert CW102",
+    "install_date": "2020-07-10",
+    "last_maintenance": "2025-09-05",
+    "chiller_loop": 2,
+    "specs": {
+      "cooling_capacity_kw": 100,
+      "max_discharge_temp_c": 32,
+      "refrigerant": "R410A",
+      "filter_model": "FLT-2248",
+      "service_port": "SP-C02-R",
+      "access_panel_fastener": "T-25 torx"
+    }
+  },
+  {
+    "equipment_id": "CRAC-C-05",
+    "name": "CRAC Unit C-05",
+    "type": "CRAC",
+    "zone": "Zone C",
+    "model": "Liebert CW102",
+    "install_date": "2020-07-10",
+    "last_maintenance": "2025-09-05",
+    "chiller_loop": 2,
+    "specs": {
+      "cooling_capacity_kw": 100,
+      "max_discharge_temp_c": 32,
+      "refrigerant": "R410A",
+      "filter_model": "FLT-2248",
+      "service_port": "SP-C05-R",
+      "access_panel_fastener": "T-25 torx"
+    }
+  },
+  {
+    "equipment_id": "CRAC-D-01",
+    "name": "CRAC Unit D-01",
+    "type": "CRAC",
+    "zone": "Zone D",
+    "model": "Liebert CW102",
+    "install_date": "2022-01-20",
+    "last_maintenance": "2025-10-12",
+    "chiller_loop": 2,
+    "specs": {
+      "cooling_capacity_kw": 100,
+      "max_discharge_temp_c": 32,
+      "refrigerant": "R410A",
+      "filter_model": "FLT-2248",
+      "service_port": "SP-D01-R",
+      "access_panel_fastener": "T-25 torx"
+    }
+  },
+  {
+    "equipment_id": "PDU-A-03",
+    "name": "Power Distribution Unit A-03",
+    "type": "PDU",
+    "zone": "Zone A",
+    "model": "APC AP8853",
+    "install_date": "2019-11-01",
+    "last_maintenance": "2025-05-14",
+    "chiller_loop": null,
+    "specs": {
+      "capacity_kva": 40,
+      "nominal_voltage_v": 228,
+      "min_voltage_v": 215,
+      "max_voltage_v": 240,
+      "current_load_pct": 73,
+      "capacitor_module": "CAP-M12",
+      "capacitor_location": "Power conditioning stage, rear panel bay C"
+    }
+  },
+  {
+    "equipment_id": "PDU-A-04",
+    "name": "Power Distribution Unit A-04 (Redundant)",
+    "type": "PDU",
+    "zone": "Zone A",
+    "model": "APC AP8853",
+    "install_date": "2019-11-01",
+    "last_maintenance": "2025-05-14",
+    "chiller_loop": null,
+    "specs": {
+      "capacity_kva": 40,
+      "nominal_voltage_v": 228,
+      "min_voltage_v": 215,
+      "max_voltage_v": 240,
+      "current_load_pct": 18,
+      "capacitor_module": "CAP-M12",
+      "capacitor_location": "Power conditioning stage, rear panel bay C"
+    }
+  },
+  {
+    "equipment_id": "UPS-A-01",
+    "name": "UPS System A-01",
+    "type": "UPS",
+    "zone": "Zone A",
+    "model": "Eaton 9PX 10kVA",
+    "install_date": "2020-04-22",
+    "last_maintenance": "2025-08-30",
+    "chiller_loop": null,
+    "specs": {
+      "capacity_kva": 10,
+      "battery_type": "VRLA",
+      "max_battery_temp_c": 35,
+      "runtime_min_at_full_load": 8
+    }
+  },
+  {
+    "equipment_id": "CHILLER-01",
+    "name": "Chiller Plant Unit 1",
+    "type": "CHILLER",
+    "zone": "Central Plant",
+    "model": "Carrier 30XA-200",
+    "install_date": "2018-06-01",
+    "last_maintenance": "2025-07-15",
+    "chiller_loop": 2,
+    "specs": {
+      "cooling_capacity_kw": 700,
+      "chilled_water_supply_temp_c": 7,
+      "chilled_water_return_temp_c": 12,
+      "max_supply_temp_c": 10,
+      "serves_zones": ["Zone C", "Zone D"],
+      "pump_model": "Grundfos CM25-3",
+      "flow_rate_lpm": 850
+    }
+  },
+  {
+    "equipment_id": "CHILLER-02",
+    "name": "Chiller Plant Unit 2",
+    "type": "CHILLER",
+    "zone": "Central Plant",
+    "model": "Carrier 30XA-200",
+    "install_date": "2018-06-01",
+    "last_maintenance": "2025-07-15",
+    "chiller_loop": 1,
+    "specs": {
+      "cooling_capacity_kw": 700,
+      "chilled_water_supply_temp_c": 7,
+      "chilled_water_return_temp_c": 12,
+      "max_supply_temp_c": 10,
+      "serves_zones": ["Zone A", "Zone B"],
+      "pump_model": "Grundfos CM25-3",
+      "flow_rate_lpm": 850
+    }
+  },
+  {
+    "equipment_id": "RACK-C-12",
+    "name": "Server Rack C-12",
+    "type": "RACK",
+    "zone": "Zone C",
+    "model": "APC NetShelter SX 42U",
+    "install_date": "2020-07-10",
+    "last_maintenance": "2025-01-10",
+    "chiller_loop": 2,
+    "specs": {
+      "max_inlet_temp_c": 35,
+      "power_draw_kw": 8.4,
+      "u_height": 42
+    }
+  },
+  {
+    "equipment_id": "RACK-C-15",
+    "name": "Server Rack C-15",
+    "type": "RACK",
+    "zone": "Zone C",
+    "model": "APC NetShelter SX 42U",
+    "install_date": "2020-07-10",
+    "last_maintenance": "2025-01-10",
+    "chiller_loop": 2,
+    "specs": {
+      "max_inlet_temp_c": 35,
+      "power_draw_kw": 9.1,
+      "u_height": 42
+    }
+  },
+  {
+    "equipment_id": "RACK-D-03",
+    "name": "Server Rack D-03",
+    "type": "RACK",
+    "zone": "Zone D",
+    "model": "APC NetShelter SX 42U",
+    "install_date": "2022-01-20",
+    "last_maintenance": "2025-02-18",
+    "chiller_loop": 2,
+    "specs": {
+      "max_inlet_temp_c": 35,
+      "power_draw_kw": 7.6,
+      "u_height": 42
+    }
+  }
+]
