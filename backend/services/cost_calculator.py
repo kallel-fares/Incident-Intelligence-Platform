@@ -2,8 +2,6 @@ from backend.models.schemas import CostCalculateRequest, CostProjection, ModelCo
 
 MODELS = [
     {"model": "gpt-5-nano",       "price_in": 0.05,  "price_out": 0.40},
-    {"model": "gpt-4o-mini",      "price_in": 0.15,  "price_out": 0.60},
-    {"model": "gpt-4o",           "price_in": 2.50,  "price_out": 10.00},
     {"model": "GPT-5.5",          "price_in": 5.00,  "price_out": 30.00},
     {"model": "Claude Opus 4.7",  "price_in": 5.00,  "price_out": 25.00},
 ]
