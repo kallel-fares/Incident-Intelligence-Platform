@@ -1,0 +1,260 @@
+[
+  {
+    "scenario": "A",
+    "alarm_ids": ["ALM-2025-0847"],
+    "generated_at": "2025-12-15T14:21:30Z",
+    "model_used": "gpt-5-nano",
+    "tokens_in": 2840,
+    "tokens_out": 720,
+    "estimated_cost_usd": 0.000430,
+    "briefing": {
+      "summary": "CRAC-B-07 discharge temp alarm (38.1°C) — high confidence clogged air filter based on exact pattern match with INC-2024-0142 three months ago.",
+      "severity_assessment": "P3 — Warning. Redundant cooling capacity in Zone B provides buffer. Rack inlet temps in Zone B remain nominal. Estimated 2h before rack inlet temps are affected if not resolved.",
+      "probable_causes": [
+        {
+          "cause": "Clogged air filter restricting airflow across evaporator coil",
+          "confidence": "high",
+          "basis": "Exact match with INC-2024-0142 (Sep 2024): same unit, same symptom profile (discharge temp + zone humidity rise), filter was overdue. Zone B is on monthly replacement schedule — last logged replacement was 6 weeks ago."
+        },
+        {
+          "cause": "Low refrigerant charge (slow leak)",
+          "confidence": "low",
+          "basis": "Occurred once on this unit (INC-2024-0318) but only after filter was confirmed clean. Subcooling anomaly not present in sensor data. Proceed to refrigerant check only if filter is clean."
+        }
+      ],
+      "correlated_signals": [
+        {
+          "signal": "Zone B humidity rising 45% → 58% over last 40 min",
+          "relevance": "Reduced airflow from clogged filter causes moisture to accumulate rather than circulate — consistent with filter obstruction pattern."
+        },
+        {
+          "signal": "Zone C ambient temp up 1.5°C (22.0°C → 23.5°C)",
+          "relevance": "Mild thermal bleed from adjacent Zone B. Not yet actionable but confirms Zone B heat load is increasing."
+        }
+      ],
+      "similar_incidents": [
+        {
+          "incident_id": "INC-2024-0142",
+          "summary": "Same unit, same symptom. Root cause: clogged FLT-2248. Resolved in 45 min.",
+          "date": "2024-09-10"
+        },
+        {
+          "incident_id": "INC-2024-0318",
+          "summary": "Same unit, high discharge temp — turned out to be low refrigerant after filter ruled out. Second hypothesis.",
+          "date": "2024-11-02"
+        }
+      ],
+      "recommended_actions": [
+        {
+          "step": 1,
+          "action": "Verify discharge temp with handheld infrared thermometer at CRAC-B-07 front vent",
+          "reason": "Rule out sensor drift before dispatching. Takes 2 min."
+        },
+        {
+          "step": 2,
+          "action": "Inspect air filter through front access panel (T-25 torx, 4 screws)",
+          "reason": "Most probable cause based on history and schedule. Filter stock: Maintenance Room B, shelf 3, bin FLT-2248."
+        },
+        {
+          "step": 3,
+          "action": "Replace filter with FLT-2248. Check evaporator coil surface for dust — clean with compressed air if fouled.",
+          "reason": "Standard resolution per INC-2024-0142. Monitor discharge temp for 10 min after restart."
+        },
+        {
+          "step": 4,
+          "action": "If filter is clean, proceed to refrigerant pressure check via service port SP-B07-R",
+          "reason": "Second hypothesis per SOP-REFRIG-001. Nominal low-side: 118–125 PSI."
+        }
+      ],
+      "required_tools": ["T-25 torx driver", "Infrared thermometer", "Compressed air canister", "Refrigerant pressure gauge (if filter clean)"],
+      "required_parts": ["FLT-2248 air filter (check van stock, or Maintenance Room B shelf 3)"],
+      "relevant_documents": [
+        {"doc_id": "MANUAL-CRAC-B07", "section": "4.1 Air Filter Location and Access"},
+        {"doc_id": "SOP-COOL-012", "section": "4.3 Filter Replacement Procedure"},
+        {"doc_id": "SOP-REFRIG-001", "section": "2. Pressure Check Procedure"}
+      ],
+      "estimated_resolution_time": "30–60 minutes",
+      "escalation": "None required unless rack inlet temps in Zone B exceed 32°C before team arrives, or discharge temp reaches 42°C+ indicating potential compressor stress."
+    }
+  },
+  {
+    "scenario": "B",
+    "alarm_ids": ["ALM-2025-0851", "ALM-2025-0852"],
+    "generated_at": "2025-12-16T10:31:45Z",
+    "model_used": "gpt-5-nano",
+    "tokens_in": 3210,
+    "tokens_out": 810,
+    "estimated_cost_usd": 0.000486,
+    "briefing": {
+      "summary": "PDU-A-03 intermittent voltage sag (228V → 219V) — two hypotheses: capacitor degradation (70% probable, matches vendor bulletin VB-2024-03) or sensor drift (20% probable). Cross-check with multimeter first.",
+      "severity_assessment": "P3 — Warning. Redundant PDU-A-04 is online and can absorb full load (currently at 18% capacity). No service interruption risk if transfer needed. Escalate to P2 if voltage drops below 215V.",
+      "probable_causes": [
+        {
+          "cause": "Degraded capacitor module (CAP-M12) in power conditioning stage",
+          "confidence": "high",
+          "basis": "Matches INC-2023-0298 pattern: same PDU model, same voltage sag profile (intermittent, gradual worsening). Vendor Bulletin VB-2024-03 specifically identifies PDU-A-03 (serial AP8853-2019-0447) as affected unit in the 2019 capacitor batch advisory."
+        },
+        {
+          "cause": "Voltage monitoring sensor drift",
+          "confidence": "medium",
+          "basis": "INC-2024-0201 showed 9V sensor drift on PDU-A-02 after firmware update. Always eliminate this hypothesis first — multimeter cross-check takes 2 minutes and prevents unnecessary hardware callout."
+        },
+        {
+          "cause": "Upstream supply voltage issue",
+          "confidence": "low",
+          "basis": "PDU-A-04 (redundant, same feed) shows no fluctuation. Rules out upstream supply as the cause."
+        }
+      ],
+      "correlated_signals": [
+        {
+          "signal": "UPS-A-01 battery temp rising 22.1°C → 24.1°C over 2 hours",
+          "relevance": "UPS battery reacts to voltage instability by drawing more current — consistent with upstream PDU voltage sag. Not dangerous at current level but confirms PDU issue is real."
+        },
+        {
+          "signal": "PDU-A-04 voltage stable at 228V throughout",
+          "relevance": "Redundant PDU on same feed shows no fluctuation — eliminates upstream supply fault, points to PDU-A-03 hardware."
+        }
+      ],
+      "similar_incidents": [
+        {
+          "incident_id": "INC-2023-0298",
+          "summary": "PDU-A-01 (same model batch), same voltage sag pattern. Root cause: capacitor degradation. Resolved with CAP-M12 replacement in 120 min.",
+          "date": "2023-11-04"
+        },
+        {
+          "incident_id": "INC-2024-0201",
+          "summary": "PDU-A-02 voltage alarm was sensor drift, not hardware fault. Resolved with recalibration in 30 min. Multimeter cross-check was the diagnostic step.",
+          "date": "2024-02-17"
+        }
+      ],
+      "recommended_actions": [
+        {
+          "step": 1,
+          "action": "Measure voltage at PDU-A-03 output bus with handheld multimeter (Fluke 117 or equivalent)",
+          "reason": "Eliminates sensor drift hypothesis in 2 minutes. If multimeter reads 225–229V while PDU monitor reads 219V, it's sensor drift — recalibrate, no parts needed."
+        },
+        {
+          "step": 2,
+          "action": "If multimeter confirms sag: visually inspect capacitor bank at rear panel bay C for bulging, discolouration, or electrolyte residue",
+          "reason": "VB-2024-03 advisory for this unit. Visual inspection confirms capacitor failure without any disassembly."
+        },
+        {
+          "step": 3,
+          "action": "Replace CAP-M12 capacitor module per MANUAL-PDU-A03 Section 5.2 (discharge capacitors first — 1kΩ resistor required)",
+          "reason": "Standard repair for this failure mode. Estimated 2h with failover to PDU-A-04."
+        },
+        {
+          "step": 4,
+          "action": "Before opening PDU: confirm PDU-A-04 can absorb full Zone A load. Transfer load if needed before working on PDU-A-03.",
+          "reason": "PDU-A-04 at 18% capacity — has ample headroom. Safe to transfer."
+        }
+      ],
+      "required_tools": ["Handheld multimeter (Fluke 117)", "Insulated gloves (Class 1)", "1kΩ 10W discharge resistor", "Phillips PH2 screwdriver"],
+      "required_parts": ["CAP-M12 capacitor module (check warehouse stock — APC will supply free replacement per VB-2024-03, contact APC support)"],
+      "relevant_documents": [
+        {"doc_id": "SOP-PWR-MULTIMETER", "section": "Procedure"},
+        {"doc_id": "VB-2024-03", "section": "Recommended Action"},
+        {"doc_id": "MANUAL-PDU-A03", "section": "5.2 Capacitor Module Replacement"},
+        {"doc_id": "SOP-PWR-008", "section": "3. PDU Hardware Fault Procedure"}
+      ],
+      "estimated_resolution_time": "30 min (if sensor drift) or 2 hours (if capacitor replacement needed)",
+      "escalation": "Notify facility manager immediately if voltage drops below 215V before team arrives. Activate UPS bypass if available."
+    }
+  },
+  {
+    "scenario": "C",
+    "alarm_ids": ["ALM-2025-0860", "ALM-2025-0861", "ALM-2025-0862", "ALM-2025-0863"],
+    "generated_at": "2025-12-17T09:07:15Z",
+    "model_used": "gpt-5-nano",
+    "tokens_in": 4180,
+    "tokens_out": 960,
+    "estimated_cost_usd": 0.000593,
+    "briefing": {
+      "summary": "4 alarms across Zones C+D in 6 minutes — individual CRAC and rack alarms are symptoms. Root cause is upstream: CHILLER-01 (Loop 2) supply temp rose from 7°C to 14°C over 20 min, indicating pump failure or chiller fault. This matches INC-2023-0089 exactly.",
+      "severity_assessment": "P1 — Critical. All CRAC units in Zones C and D are affected. Chilled water supply at 14°C (nominal: 7°C). Rack inlet temps already at 35–36°C. 30-minute window before load shedding becomes necessary.",
+      "probable_causes": [
+        {
+          "cause": "CHILLER-01 Loop 2 circulation pump failure or significant flow reduction",
+          "confidence": "high",
+          "basis": "CHILLER-01 supply temp rose 7°C → 14°C over 20 min while all Zones C+D CRAC units degraded simultaneously. Zones A+B (Loop 1) are unaffected. Pattern is identical to INC-2023-0089 (pump bearing failure). Key diagnostic: if standby pump is activated and supply temp recovers, confirms pump as root cause."
+        },
+        {
+          "cause": "CHILLER-01 compressor fault",
+          "confidence": "medium",
+          "basis": "Less likely than pump failure given the gradual temperature rise (compressor fault would typically be more abrupt) but cannot be ruled out without visual inspection at plant."
+        }
+      ],
+      "correlated_signals": [
+        {
+          "signal": "CHILLER-01 supply water temp: 7°C → 14°C over 20 min (threshold: 10°C)",
+          "relevance": "This is the root cause signal. Supply temp rising while pump should be running indicates pump failure or severe flow restriction."
+        },
+        {
+          "signal": "CRAC-C-02 discharge temp: 25°C → 43°C over 2 hours (compressor fault at 09:06)",
+          "relevance": "CRAC is trying to compensate for warm supply water. Compressor fault is a consequence, not the cause."
+        },
+        {
+          "signal": "CRAC-C-05 discharge temp: 25°C → 38.5°C",
+          "relevance": "Second CRAC on Loop 2 showing identical degradation — confirms systemic supply issue, not individual unit fault."
+        },
+        {
+          "signal": "CRAC-D-01 discharge temp: 24°C → 37°C",
+          "relevance": "Zone D CRAC degrading simultaneously — spans both zones on Loop 2. Rules out zone-specific cause."
+        },
+        {
+          "signal": "Zone D humidity: 44% → 72% (threshold: 65%)",
+          "relevance": "CRAC units struggling to control humidity when cooling supply is degraded. Secondary symptom of chiller failure."
+        },
+        {
+          "signal": "Zones A+B nominal throughout",
+          "relevance": "Loop 1 (CHILLER-02) unaffected. Confirms fault is isolated to Loop 2 infrastructure."
+        }
+      ],
+      "similar_incidents": [
+        {
+          "incident_id": "INC-2023-0089",
+          "summary": "CHILLER-01 pump bearing failure caused cascading thermal event across Zones C+D. 4-hour resolution. Key lesson: do not dispatch to individual CRAC units — go directly to chiller plant.",
+          "date": "2023-10-22"
+        }
+      ],
+      "recommended_actions": [
+        {
+          "step": 1,
+          "action": "IMMEDIATELY: Notify facility manager and on-call mechanical lead. Do not wait.",
+          "reason": "P1 protocol per SOP-CRIT-001. 30-minute window before load shedding decision."
+        },
+        {
+          "step": 2,
+          "action": "DO NOT restart CRAC-C-02 or other faulted CRAC units.",
+          "reason": "They will fault again immediately if chilled water supply is degraded. Restarting is wasted time and risks compressor damage."
+        },
+        {
+          "step": 3,
+          "action": "Primary team: Go directly to Chiller Plant. Check CHILLER-01 pump status (primary + standby). Verify chilled water flow rate (nominal: 850 LPM). If primary pump shows fault, activate standby pump via control panel (green STANDBY button).",
+          "reason": "This is the root cause. Standby pump switchover may restore cooling within 15 min, as in INC-2023-0089."
+        },
+        {
+          "step": 4,
+          "action": "Secondary team: Stage at Zone C/D entrance. Monitor rack inlet temps via BMS. Prepare for emergency load shedding per PROC-LOADSHED-CD.",
+          "reason": "Rack C-12 at 35.5°C, C-15 at 36.2°C. Shedding trigger: 38°C, or 30 min elapsed without chiller recovery."
+        },
+        {
+          "step": 5,
+          "action": "If standby pump does not restore supply temp within 10 min, escalate to mechanical lead for chiller compressor inspection.",
+          "reason": "Pump activation failure suggests deeper chiller plant fault requiring specialist intervention."
+        }
+      ],
+      "required_tools": ["BMS access (remote)", "Chiller plant control panel access", "Thermal imaging camera (for pump inspection)"],
+      "required_parts": ["None initially — standby pump is already installed. Parts TBD after root cause confirmed at plant."],
+      "relevant_documents": [
+        {"doc_id": "SOP-CRIT-001", "section": "2. Immediate Actions"},
+        {"doc_id": "SOP-CRIT-001", "section": "3. Team Deployment"},
+        {"doc_id": "SCHEMATIC-CHILLER", "section": "Loop Assignments"},
+        {"doc_id": "SOP-COOL-012", "section": "6. Chiller Plant Check"},
+        {"doc_id": "PROC-LOADSHED-CD", "section": "Trigger Criteria"}
+      ],
+      "estimated_resolution_time": "15–30 min if standby pump activation succeeds. 4+ hours if chiller compressor fault.",
+      "escalation": "Facility manager and on-call mechanical lead: notify immediately. IT operations coordinator: notify now to prepare for possible load shedding. CTO on-call: notify if load shedding of production racks becomes necessary."
+    }
+  }
+]
